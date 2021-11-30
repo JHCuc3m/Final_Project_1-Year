@@ -51,6 +51,3 @@ class Mario:
             self.y = self.y - 30
 
 
-    #a new line
-    
-    #a new line

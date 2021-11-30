@@ -35,14 +35,19 @@ class Board:
 
     def draw(self):
         pyxel.cls(0)
-        # We draw Mario taking the values from the mario object
-        # Parameters are x, y, image bank, the starting x and y and the size
+
+        #the gravity, when it is not in the ground, Mario starts falling
+
         if self.mario.y >= 200 or self.velocity != 0:
             self.velocity = 0
         else:
             self.velocity += 1
             self.mario.y += self.velocity
             time.sleep(0.01)
+
+        # We draw Mario taking the values from the mario object
+        # Parameters are x, y, image bank, the starting x and y and the size
+
         pyxel.blt(self.mario.x, self.mario.y, self.mario.sprite[0],
                   self.mario.sprite[1], self.mario.sprite[2], self.mario.sprite[3],
                   self.mario.sprite[4])
