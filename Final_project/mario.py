@@ -52,3 +52,5 @@ class Mario:
 
 
     #a new line
+    
+    #a new line
