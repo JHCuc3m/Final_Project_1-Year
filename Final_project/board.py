@@ -30,20 +30,24 @@ class Board:
             else:
                 self.mario.move('left', self.width)
 
-        if pyxel.btn(pyxel.KEY_Z) and self.mario.y >= 200:
+        if pyxel.btn(pyxel.KEY_Z): #and self.mario.y >= 200:
             self.mario.jump("up", self.height)
+
+        if self.mario.jump_force != 10 and self.mario.y >= 200:
+            self.mario.jump_force = 15
 
     def draw(self):
         pyxel.cls(0)
 
         #the gravity, when it is not in the ground, Mario starts falling
 
-        if self.mario.y >= 200 or self.velocity != 0:
+        if self.mario.y >= 200: #and self.velocity != 0:
             self.velocity = 0
         else:
-            self.velocity += 1
+            self.velocity += 0.2
+
             self.mario.y += self.velocity
-            time.sleep(0.01)
+            time.sleep(0.001)
 
         # We draw Mario taking the values from the mario object
         # Parameters are x, y, image bank, the starting x and y and the size

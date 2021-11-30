@@ -17,6 +17,9 @@ class Mario:
         # We also assume that Mario will always have three lives in the beginning
         self.lives = 3
 
+        self.jump_force = 15
+
+
     def move(self, direction: str, size: int):
         """ This is an example of a method that moves Mario, it receives the
         direction and the size of the board"""
@@ -48,6 +51,8 @@ class Mario:
         # he reaches the right border
         mario_y_size = self.sprite[4]
         if direction.lower() == 'up' and self.y > 0 :
-            self.y = self.y - 30
+            self.y = self.y - self.jump_force
+            if self.jump_force > 0:
+                self.jump_force -= 1
 
 
