@@ -9,6 +9,9 @@ pyxel.init(board.width, board.height, caption="This is super Mario")
 # Loading a 16x16 mario at bank 1 in (17,0)
 pyxel.image(0).load(0, 0, "assets/mario.png")
 
+
+pyxel.load("my_resource.pyxres")
+
 # Loading the pyxres file, it has a 16x16 cat in (0,0) in bank 0
 # pyxel.load("assets/example.pyxres")
 
