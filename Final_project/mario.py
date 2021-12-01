@@ -26,14 +26,14 @@ class Mario:
         mario_x_size = self.sprite[3]
         if direction.lower() == 'right' and self.x < size - mario_x_size:
             if round(self.x + self.sprite[2]) != self.obstacle_positions[0][2] \
-                and (round(self.y) < self.obstacle_positions[0][3] \
-                     or round(self.y) > self.obstacle_positions[0][3] - self.obstacle_positions[0][1]):
+                or (round(self.y) < self.obstacle_positions[0][3] \
+                     or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
                 self.x += 1
 
         elif direction.lower() == 'left' and self.x > 0:
             if round(self.x) != self.obstacle_positions[0][2] + self.obstacle_positions[0][0] \
-                    and (round(self.y) < self.obstacle_positions[0][3] \
-                         or round(self.y) > self.obstacle_positions[0][3] - self.obstacle_positions[0][1]):
+                    or (round(self.y) < self.obstacle_positions[0][3] \
+                         or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
                 self.x -= 1
 
     def run(self, direction: str, size: int):
@@ -43,10 +43,15 @@ class Mario:
         # he reaches the right border
         mario_x_size = self.sprite[3]
         if direction.lower() == 'right' and self.x < size - mario_x_size:
-            self.x = self.x + 2
+            if round(self.x + self.sprite[2]) != self.obstacle_positions[0][2] \
+                    or (round(self.y) < self.obstacle_positions[0][3] \
+                        or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
+                self.x = self.x + 2
         elif direction.lower() == 'left' and self.x > 0:
-            # I am assuming that if it is not right it will be left
-            self.x -= 2
+            if round(self.x) != self.obstacle_positions[0][2] + self.obstacle_positions[0][0] \
+                    or (round(self.y) < self.obstacle_positions[0][3] \
+                        or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
+                self.x -= 2
 
     def jump(self, direction: str, size: int):
         """ This is an example of a method that makes Mario jump, it receives the
