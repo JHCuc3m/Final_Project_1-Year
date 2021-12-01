@@ -39,7 +39,7 @@ class Board:
         if pyxel.btn(pyxel.KEY_Z):  # and self.mario.y >= 200:
             self.mario.jump("up", self.height)
 
-        if self.mario.jump_force != 10 and self.mario.:
+        if self.mario.jump_force != 10 and self.mario.in_the_ground():
             self.mario.jump_force = 13
 
     def draw(self):
