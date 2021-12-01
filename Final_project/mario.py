@@ -19,7 +19,9 @@ class Mario:
         self.obstacle_positions = obstacle_positions
 
     def in_the_ground(self):
-        if round(self.y == self.obstacle_positions[0][3]) or self.y > 200:
+        if (abs(self.y + self.sprite[3] - self.obstacle_positions[0][3]) < 3\
+            and (round(self.x + self.sprite[2]) > self.obstacle_positions[0][2] \
+                 and round(self.x) < self.obstacle_positions[0][2] + self.obstacle_positions[0][0])) or self.y > 200:
             return True
         else:
             return False
@@ -67,7 +69,7 @@ class Mario:
         # Checking the current horizontal size of Mario to stop him before
         # he reaches the upper border
         mario_y_size = self.sprite[4]
-        if direction.lower() == 'up' and self.y > 0 and self.in_the_ground():
+        if direction.lower() == 'up' and self.y > 0:
             self.y = self.y - self.jump_force
             if self.jump_force > 0:
                 self.jump_force -= 1
