@@ -39,7 +39,7 @@ class Board:
         if pyxel.btn(pyxel.KEY_Z):  # and self.mario.y >= 200:
             self.mario.jump("up", self.height)
 
-        if self.mario.jump_force != 10 and self.mario.y >= 200:
+        if self.mario.jump_force != 10 and self.mario.:
             self.mario.jump_force = 13
 
     def draw(self):
@@ -47,7 +47,7 @@ class Board:
 
         # the gravity, when it is not in the ground, Mario starts falling
 
-        if self.mario.y >= 200:  # and self.velocity != 0:
+        if self.mario.in_the_ground():
             self.velocity = 0
         else:
             self.velocity += 0.2
@@ -65,6 +65,3 @@ class Board:
         pyxel.blt(self.enemy1.sprite[4], self.enemy1.sprite[5], self.enemy1.sprite[0],
                   self.enemy1.sprite[1], self.enemy1.sprite[2], self.enemy1.sprite[3],
                   self.enemy1.sprite[6])
-
-
-

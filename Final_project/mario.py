@@ -11,12 +11,18 @@ class Mario:
         self.y = y
         self.direction = dir
 
-        self.sprite = (0, 48, 16, 16, 16)  # img bank, x and y of the image bank, width, height and colkey
+        self.sprite = [0, 48, 16, 16, 16]  # img bank, x and y of the image bank, width, height and colkey
         # We also assume that Mario will always have three lives in the beginning
         self.lives = 3
 
         self.jump_force = 13
         self.obstacle_positions = obstacle_positions
+
+    def in_the_ground(self):
+        if round(self.y == self.obstacle_positions[0][3]) or self.y > 200:
+            return True
+        else:
+            return False
 
     def move(self, direction: str, size: int):
         """ This is an example of a method that moves Mario, it receives the
@@ -25,15 +31,17 @@ class Mario:
         # he reaches the right border
         mario_x_size = self.sprite[3]
         if direction.lower() == 'right' and self.x < size - mario_x_size:
+            self.sprite[1] = 48
             if round(self.x + self.sprite[2]) != self.obstacle_positions[0][2] \
-                or (round(self.y) < self.obstacle_positions[0][3] \
-                     or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
+                    or (round(self.y) < self.obstacle_positions[0][3] \
+                        or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
                 self.x += 1
 
         elif direction.lower() == 'left' and self.x > 0:
+            self.sprite[1] = 32
             if round(self.x) != self.obstacle_positions[0][2] + self.obstacle_positions[0][0] \
                     or (round(self.y) < self.obstacle_positions[0][3] \
-                         or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
+                        or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
                 self.x -= 1
 
     def run(self, direction: str, size: int):
@@ -57,9 +65,9 @@ class Mario:
         """ This is an example of a method that makes Mario jump, it receives the
                 direction and the size of the board"""
         # Checking the current horizontal size of Mario to stop him before
-        # he reaches the right border
+        # he reaches the upper border
         mario_y_size = self.sprite[4]
-        if direction.lower() == 'up' and self.y > 0:
+        if direction.lower() == 'up' and self.y > 0 and self.in_the_ground():
             self.y = self.y - self.jump_force
             if self.jump_force > 0:
                 self.jump_force -= 1
