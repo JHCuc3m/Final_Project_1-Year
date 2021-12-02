@@ -27,14 +27,14 @@ class Board:
             pyxel.quit()
         elif pyxel.btn(pyxel.KEY_RIGHT):
             if pyxel.btn(pyxel.KEY_X):
-                self.mario.run('right', self.width)
+                self.mario.move('right', self.width, 2)
             else:
-                self.mario.move('right', self.width)
+                self.mario.move('right', self.width, 1)
         elif pyxel.btn(pyxel.KEY_LEFT):
             if pyxel.btn(pyxel.KEY_X):
-                self.mario.run('left', self.width)
+                self.mario.move('left', self.width, 2)
             else:
-                self.mario.move('left', self.width)
+                self.mario.move('left', self.width, 1)
 
         if pyxel.btn(pyxel.KEY_Z):  # and self.mario.y >= 200:
             self.mario.jump("up", self.height)
