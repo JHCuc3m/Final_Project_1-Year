@@ -16,8 +16,10 @@ class Board:
         # facing right
 
         self.enemy1 = Enemy(50, 200, False)
-        self.obstacle_positions = [self.enemy1.sprite[2:6]]
+        self.enemy2 = Enemy(200, 200, False)
 
+        self.obstacle_positions = [self.enemy1.sprite[2:6], self.enemy2.sprite[2:6]]
+        self.enemies = [self.enemy1, self.enemy2]
         self.mario = Mario(self.width / 2, 200, True, self.obstacle_positions)
 
         self.velocity = 0
@@ -61,7 +63,7 @@ class Board:
         pyxel.blt(self.mario.x, self.mario.y, self.mario.sprite[0],
                   self.mario.sprite[1], self.mario.sprite[2], self.mario.sprite[3],
                   self.mario.sprite[4])
-
-        pyxel.blt(self.enemy1.sprite[4], self.enemy1.sprite[5], self.enemy1.sprite[0],
-                  self.enemy1.sprite[1], self.enemy1.sprite[2], self.enemy1.sprite[3],
-                  self.enemy1.sprite[6])
+        for enemy in self.enemies:
+            pyxel.blt(enemy.sprite[4], enemy.sprite[5], enemy.sprite[0],
+                      enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
+                      enemy.sprite[6])

@@ -20,13 +20,13 @@ class Mario:
 
     def in_the_ground(self):
         for obstacle in self.obstacle_positions:
-            if not ((abs(self.y + self.sprite[3] - obstacle[3]) < 3 \
+            if ((abs(self.y + self.sprite[3] - obstacle[3]) < 3 \
                     and (round(self.x + self.sprite[2]) > obstacle[2] \
                          and round(self.x) < obstacle[2] + obstacle[0]
                              )) or self.y > 200):
-                return False
+                return True
+        return False
 
-        return True
 
     def move(self, direction: str, size: int, speed: int):
         """ This is an example of a method that moves Mario, it receives the
