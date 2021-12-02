@@ -35,14 +35,14 @@ class Mario:
         if direction.lower() == 'right' and self.x < size - mario_x_size:
             self.sprite[1] = 48
             if round(self.x + self.sprite[2]) != self.obstacle_positions[0][2] \
-                    or (round(self.y) < self.obstacle_positions[0][3] \
+                    or (round(self.y) + self.sprite[3] < self.obstacle_positions[0][3] \
                         or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
                 self.x += 1
 
         elif direction.lower() == 'left' and self.x > 0:
             self.sprite[1] = 32
             if round(self.x) != self.obstacle_positions[0][2] + self.obstacle_positions[0][0] \
-                    or (round(self.y) < self.obstacle_positions[0][3] \
+                    or (round(self.y) + self.sprite[3] < self.obstacle_positions[0][3] \
                         or round(self.y) > self.obstacle_positions[0][3] + self.obstacle_positions[0][1]):
                 self.x -= 1
 
