@@ -24,12 +24,15 @@ class Board:
         block3 = Ground(10, 180)
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
+        block6 = Ground(140, 220)
 
         self.obstacles.append(block3)
 
         self.obstacles.append(block4)
 
         self.obstacles.append(block5)
+        self.obstacles.append(block6)
+
 
 
 

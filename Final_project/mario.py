@@ -46,7 +46,7 @@ class Mario:
             self.sprite[1] = 48
             go = True
             for obstacle in self.obstacles:
-                if not (round(self.x + self.sprite[2]) != obstacle.sprite[4] \
+                if not (abs(round(self.x + self.sprite[2]) - obstacle.sprite[4]) != 0 \
                         or (round(self.y) + self.sprite[3] < obstacle.sprite[5] + 3 \
                             or round(self.y) > obstacle.sprite[5] + obstacle.sprite[3])):
                     go = False
@@ -57,7 +57,7 @@ class Mario:
             self.sprite[1] = 32
             go = True
             for obstacle in self.obstacles:
-                if not (round(self.x) != obstacle.sprite[4] + obstacle.sprite[2] \
+                if not (abs(round(self.x) -( obstacle.sprite[4] + obstacle.sprite[2])) != 0 \
                         or (round(self.y) + self.sprite[3] < obstacle.sprite[5] + 3 \
                             or round(self.y) > obstacle.sprite[5] + obstacle.sprite[3])):
                     go = False
