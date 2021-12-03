@@ -21,5 +21,3 @@ class Enemy:
         if direction.lower() == 'left':
             self.x -= 1
 
-
-

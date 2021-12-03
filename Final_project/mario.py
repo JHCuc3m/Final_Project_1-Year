@@ -1,7 +1,7 @@
 class Mario:
     """ This class stores all the information needed for Mario"""
 
-    def __init__(self, x: int, y: int, dir: bool, obstacle_positions: list):
+    def __init__(self, x: int, y: int, dir: bool, obstacles: list):
         """ This method creates the Mario object
         @param x the starting x of Mario
         @param y the starting y of Mario
@@ -16,15 +16,24 @@ class Mario:
         self.lives = 3
 
         self.jump_force = 10
-        self.obstacle_positions = obstacle_positions
+        self.obstacles = obstacles
 
     def in_the_ground(self):
-        for obstacle in self.obstacle_positions:
-            if ((abs(self.y + self.sprite[3] - obstacle[3]) < 3 \
-                 and (round(self.x + self.sprite[2]) > obstacle[2] \
-                      and round(self.x) < obstacle[2] + obstacle[0]
-                 )) or self.y > 200):
+        for obstacle in self.obstacles:
+            if ((abs(self.y + self.sprite[3] - obstacle.sprite[5]) < 4 \
+                 and (round(self.x + self.sprite[2]) > obstacle.sprite[4] \
+                      and round(self.x) < obstacle.sprite[4] + obstacle.sprite[2]
+                 ))):
                 return True
+        return False
+
+    def at_the_ceiling(self):
+        for obstacle in self.obstacles:
+            if (((abs(self.y - (obstacle.sprite[5] + obstacle.sprite[3])) < 5) \
+                 and (round(self.x + self.sprite[2]) > obstacle.sprite[4]) \
+                 and (round(self.x) < obstacle.sprite[4] + obstacle.sprite[2]))):
+                return True
+
         return False
 
     def move(self, direction: str, size: int, speed: int):
@@ -36,10 +45,10 @@ class Mario:
         if direction.lower() == 'right' and self.x < size - mario_x_size:
             self.sprite[1] = 48
             go = True
-            for obstacle in self.obstacle_positions:
-                if not (round(self.x + self.sprite[2]) != obstacle[2] \
-                        or (round(self.y) + self.sprite[3] < obstacle[3] + 3 \
-                            or round(self.y) > obstacle[3] + obstacle[1])):
+            for obstacle in self.obstacles:
+                if not (round(self.x + self.sprite[2]) != obstacle.sprite[4] \
+                        or (round(self.y) + self.sprite[3] < obstacle.sprite[5] + 3 \
+                            or round(self.y) > obstacle.sprite[5] + obstacle.sprite[3])):
                     go = False
             if go:
                 self.x += speed
@@ -47,10 +56,10 @@ class Mario:
         elif direction.lower() == 'left' and self.x > 0:
             self.sprite[1] = 32
             go = True
-            for obstacle in self.obstacle_positions:
-                if not (round(self.x) != obstacle[2] + obstacle[0] \
-                        or (round(self.y) + self.sprite[3] < obstacle[3] + 3 \
-                            or round(self.y) > obstacle[3] + obstacle[1])):
+            for obstacle in self.obstacles:
+                if not (round(self.x) != obstacle.sprite[4] + obstacle.sprite[2] \
+                        or (round(self.y) + self.sprite[3] < obstacle.sprite[5] + 3 \
+                            or round(self.y) > obstacle.sprite[5] + obstacle.sprite[3])):
                     go = False
             if go:
                 self.x -= speed
@@ -60,8 +69,9 @@ class Mario:
                 direction and the size of the board"""
         # Checking the current horizontal size of Mario to stop him before
         # he reaches the upper border
-        mario_y_size = self.sprite[4]
-        if direction.lower() == 'up' and self.y > 0:
-            self.y = self.y - self.jump_force
-            if self.jump_force > 0:
-                self.jump_force -= 1
+        if not self.at_the_ceiling():
+            mario_y_size = self.sprite[4]
+            if direction.lower() == 'up' and self.y > 0:
+                self.y = self.y - self.jump_force
+                if self.jump_force > 0:
+                    self.jump_force -= 1

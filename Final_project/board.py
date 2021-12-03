@@ -2,7 +2,7 @@ from mario import Mario
 import time
 import pyxel
 from enemies import Enemy
-
+from block import Ground
 
 class Board:
     """ This class contains all the information needed to represent the
@@ -14,14 +14,27 @@ class Board:
         self.height = h
         # This creates a Mario at the middle of the screen in x and at y = 200
         # facing right
-        self.obstacle_positions = []
-        self.enemies = []
+        self.obstacles = []
         for i in range(0,255,16):
-            enemy = Enemy(i, 200, False)
-            self.obstacle_positions.append(enemy.sprite[2:6])
-            self.enemies.append(enemy)
+            block = Ground(i, 236)
+            block2 = Ground(i,252)
 
-        self.mario = Mario(self.width / 2, 200, True, self.obstacle_positions)
+            self.obstacles.append(block)
+            self.obstacles.append(block2)
+        block3 = Ground(10, 180)
+        block4 = Ground(40, 140)
+        block5 = Ground(80, 100)
+
+        self.obstacles.append(block3)
+
+        self.obstacles.append(block4)
+
+        self.obstacles.append(block5)
+
+
+
+
+        self.mario = Mario(self.width / 2, 220, True, self.obstacles)
 
         self.velocity = 0
 
@@ -64,7 +77,7 @@ class Board:
         pyxel.blt(self.mario.x, self.mario.y, self.mario.sprite[0],
                   self.mario.sprite[1], self.mario.sprite[2], self.mario.sprite[3],
                   self.mario.sprite[4])
-        for enemy in self.enemies:
-            pyxel.blt(enemy.sprite[4], enemy.sprite[5], enemy.sprite[0],
-                      enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
-                      enemy.sprite[6])
+        for block in self.obstacles:
+            pyxel.blt(block.sprite[4], block.sprite[5], block.sprite[0],
+                      block.sprite[1], block.sprite[2], block.sprite[3],
+                      block.sprite[6])
