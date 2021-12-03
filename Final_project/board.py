@@ -4,6 +4,7 @@ import pyxel
 from enemies import Enemy
 from block import Ground
 
+
 class Board:
     """ This class contains all the information needed to represent the
     board"""
@@ -15,16 +16,16 @@ class Board:
         # This creates a Mario at the middle of the screen in x and at y = 200
         # facing right
         self.obstacles = []
-        for i in range(0,255,16):
+        for i in range(0, 1000, 16):
             block = Ground(i, 236)
-            block2 = Ground(i,252)
+            block2 = Ground(i, 252)
 
             self.obstacles.append(block)
             self.obstacles.append(block2)
         block3 = Ground(10, 180)
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
-        block6 = Ground(140, 220)
+        block6 = Ground(300, 220)
 
         self.obstacles.append(block3)
 
@@ -33,13 +34,11 @@ class Board:
         self.obstacles.append(block5)
         self.obstacles.append(block6)
 
-
-
-
-
         self.mario = Mario(self.width / 2, 220, True, self.obstacles)
 
         self.velocity = 0
+
+        self.big_x = 255
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
@@ -77,10 +76,18 @@ class Board:
         # We draw Mario taking the values from the mario object
         # Parameters are x, y, image bank, the starting x and y and the size
 
+        if self.mario.x > self.width / 2:
+            self.big_x += (self.mario.x - self.width/2)
+            self.mario.x = self.width/2
+
+
         pyxel.blt(self.mario.x, self.mario.y, self.mario.sprite[0],
                   self.mario.sprite[1], self.mario.sprite[2], self.mario.sprite[3],
                   self.mario.sprite[4])
+
         for block in self.obstacles:
-            pyxel.blt(block.sprite[4], block.sprite[5], block.sprite[0],
-                      block.sprite[1], block.sprite[2], block.sprite[3],
-                      block.sprite[6])
+            if self.big_x >= block.sprite[4]:
+                progress = self.big_x - 255
+                pyxel.blt(block.sprite[4]- progress, block.sprite[5], block.sprite[0],
+                          block.sprite[1], block.sprite[2], block.sprite[3],
+                          block.sprite[6])
