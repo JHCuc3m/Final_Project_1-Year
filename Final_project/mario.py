@@ -15,18 +15,17 @@ class Mario:
         # We also assume that Mario will always have three lives in the beginning
         self.lives = 3
 
-        self.jump_force = 13
+        self.jump_force = 10
         self.obstacle_positions = obstacle_positions
 
     def in_the_ground(self):
         for obstacle in self.obstacle_positions:
             if ((abs(self.y + self.sprite[3] - obstacle[3]) < 3 \
-                    and (round(self.x + self.sprite[2]) > obstacle[2] \
-                         and round(self.x) < obstacle[2] + obstacle[0]
-                             )) or self.y > 200):
+                 and (round(self.x + self.sprite[2]) > obstacle[2] \
+                      and round(self.x) < obstacle[2] + obstacle[0]
+                 )) or self.y > 200):
                 return True
         return False
-
 
     def move(self, direction: str, size: int, speed: int):
         """ This is an example of a method that moves Mario, it receives the
@@ -39,7 +38,7 @@ class Mario:
             go = True
             for obstacle in self.obstacle_positions:
                 if not (round(self.x + self.sprite[2]) != obstacle[2] \
-                        or (round(self.y) + self.sprite[3] < obstacle[3] \
+                        or (round(self.y) + self.sprite[3] < obstacle[3] + 3 \
                             or round(self.y) > obstacle[3] + obstacle[1])):
                     go = False
             if go:
@@ -50,7 +49,7 @@ class Mario:
             go = True
             for obstacle in self.obstacle_positions:
                 if not (round(self.x) != obstacle[2] + obstacle[0] \
-                        or (round(self.y) + self.sprite[3] < obstacle[3] \
+                        or (round(self.y) + self.sprite[3] < obstacle[3] + 3 \
                             or round(self.y) > obstacle[3] + obstacle[1])):
                     go = False
             if go:

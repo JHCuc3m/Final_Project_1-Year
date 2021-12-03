@@ -11,7 +11,7 @@ class Enemy:
 
         self.direction = dir
 
-        self.sprite = (0, 0, 16, 16, x, y, 16)  # img bank, x and y of the image bank, width, height, x, y and colkey
+        self.sprite = (1, 0, 16, 16, x, y, 16)  # img bank, x and y of the image bank, width, height, x, y and colkey
 
         self.alive = True
 
@@ -20,5 +20,6 @@ class Enemy:
                 direction"""
         if direction.lower() == 'left':
             self.x -= 1
+
 
 

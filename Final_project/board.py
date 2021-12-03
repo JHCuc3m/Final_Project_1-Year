@@ -14,12 +14,13 @@ class Board:
         self.height = h
         # This creates a Mario at the middle of the screen in x and at y = 200
         # facing right
+        self.obstacle_positions = []
+        self.enemies = []
+        for i in range(0,255,16):
+            enemy = Enemy(i, 200, False)
+            self.obstacle_positions.append(enemy.sprite[2:6])
+            self.enemies.append(enemy)
 
-        self.enemy1 = Enemy(50, 200, False)
-        self.enemy2 = Enemy(200, 200, False)
-
-        self.obstacle_positions = [self.enemy1.sprite[2:6], self.enemy2.sprite[2:6]]
-        self.enemies = [self.enemy1, self.enemy2]
         self.mario = Mario(self.width / 2, 200, True, self.obstacle_positions)
 
         self.velocity = 0
