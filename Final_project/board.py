@@ -26,6 +26,7 @@ class Board:
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
         block6 = Ground(300, 220)
+        block7 = Ground(100,220)
 
         self.obstacles.append(block3)
 
@@ -33,6 +34,8 @@ class Board:
 
         self.obstacles.append(block5)
         self.obstacles.append(block6)
+        self.obstacles.append(block7)
+
 
         self.mario = Mario(self.width / 2, 220, True, self.obstacles)
 
@@ -88,6 +91,6 @@ class Board:
         for block in self.obstacles:
             if self.big_x >= block.sprite[4]:
                 progress = self.big_x - 255
-                pyxel.blt(block.sprite[4]- progress, block.sprite[5], block.sprite[0],
+                pyxel.blt(block.sprite[5]- progress, block.sprite[6], block.sprite[0],
                           block.sprite[1], block.sprite[2], block.sprite[3],
-                          block.sprite[6])
+                          block.sprite[4])

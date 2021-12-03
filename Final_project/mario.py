@@ -20,18 +20,18 @@ class Mario:
 
     def in_the_ground(self):
         for obstacle in self.obstacles:
-            if ((abs(self.y + self.sprite[3] - obstacle.sprite[5]) < 4 \
-                 and (round(self.x + self.sprite[2]) > obstacle.sprite[4] \
-                      and round(self.x) < obstacle.sprite[4] + obstacle.sprite[2]
+            if ((abs(self.y + self.sprite[3] - obstacle.sprite[6]) < 4 \
+                 and (round(self.x + self.sprite[2]) > obstacle.sprite[5] \
+                      and round(self.x) < obstacle.sprite[5] + obstacle.sprite[3]
                  ))):
                 return True
         return False
 
     def at_the_ceiling(self):
         for obstacle in self.obstacles:
-            if (((abs(self.y - (obstacle.sprite[5] + obstacle.sprite[3])) < 5) \
-                 and (round(self.x + self.sprite[2]) > obstacle.sprite[4]) \
-                 and (round(self.x) < obstacle.sprite[4] + obstacle.sprite[2]))):
+            if (((abs(self.y - (obstacle.sprite[6] + obstacle.sprite[4])) < 5) \
+                 and (round(self.x + self.sprite[2]) > obstacle.sprite[5]) \
+                 and (round(self.x) < obstacle.sprite[5] + obstacle.sprite[3]))):
                 return True
 
         return False
@@ -46,9 +46,9 @@ class Mario:
             self.sprite[1] = 48
             go = True
             for obstacle in self.obstacles:
-                if not (abs(round(self.x + self.sprite[2]) - obstacle.sprite[4]) != 0 \
-                        or (round(self.y) + self.sprite[3] < obstacle.sprite[5] + 3 \
-                            or round(self.y) > obstacle.sprite[5] + obstacle.sprite[3])):
+                if not (abs(round(self.x + self.sprite[2]) - obstacle.sprite[5]) != 0 \
+                        or (round(self.y) + self.sprite[3] < obstacle.sprite[6] + 3 \
+                            or round(self.y) > obstacle.sprite[6] + obstacle.sprite[4])):
                     go = False
             if go:
                 self.x += speed
@@ -57,9 +57,9 @@ class Mario:
             self.sprite[1] = 32
             go = True
             for obstacle in self.obstacles:
-                if not (abs(round(self.x) -( obstacle.sprite[4] + obstacle.sprite[2])) != 0 \
-                        or (round(self.y) + self.sprite[3] < obstacle.sprite[5] + 3 \
-                            or round(self.y) > obstacle.sprite[5] + obstacle.sprite[3])):
+                if not (abs(round(self.x) -( obstacle.sprite[5] + obstacle.sprite[3])) != 0 \
+                        or (round(self.y) + self.sprite[3] < obstacle.sprite[6] + 3 \
+                            or round(self.y) > obstacle.sprite[6] + obstacle.sprite[4])):
                     go = False
             if go:
                 self.x -= speed
