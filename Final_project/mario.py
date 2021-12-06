@@ -1,7 +1,7 @@
 class Mario:
     """ This class stores all the information needed for Mario"""
 
-    def __init__(self, x: int, y: int, dir: bool, obstacles: list):
+    def __init__(self, x: int, y: int, dir: bool, obstacles: list, enemies:list):
         """ This method creates the Mario object
         @param x the starting x of Mario
         @param y the starting y of Mario
@@ -13,11 +13,12 @@ class Mario:
 
         self.sprite = [0, 48, 16, 16, 16]  # img bank, x and y of the image bank, width, height and colkey
         # We also assume that Mario will always have three lives in the beginning
-        self.lives = 3
+        self.lives = 1
 
         self.jump_force = 10
         self.obstacles = obstacles
         self.previous_progress = 0.00
+        self.enemies = enemies
 
     def in_the_ground(self):
         for obstacle in self.obstacles:
@@ -43,7 +44,7 @@ class Mario:
         # Checking the current horizontal size of Mario to stop him before
         # he reaches the right border
         mario_x_size = self.sprite[3]
-        if direction.lower() == 'right' and self.x < size - mario_x_size:
+        if direction.lower() == 'right' and self.x < size - mario_x_size and self.lives > 0:
             self.sprite[1] = 48
             go = True
             for obstacle in self.obstacles:
@@ -59,7 +60,7 @@ class Mario:
 
             self.previous_progress = progress
 
-        elif direction.lower() == 'left' and self.x > 0:
+        elif direction.lower() == 'left' and self.x > 0 and self.lives > 0:
             self.sprite[1] = 32
             go = True
             for obstacle in self.obstacles:
@@ -76,7 +77,7 @@ class Mario:
                 direction and the size of the board"""
         # Checking the current horizontal size of Mario to stop him before
         # he reaches the upper border
-        if not self.at_the_ceiling():
+        if not self.at_the_ceiling() and self.lives > 0:
             mario_y_size = self.sprite[4]
             if direction.lower() == 'up' and self.y > 0:
                 self.y = self.y - self.jump_force

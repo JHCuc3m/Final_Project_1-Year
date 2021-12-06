@@ -29,7 +29,7 @@ class Board:
         block3 = Ground(10, 180)
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
-        block7 = Ground(500, 220)
+        block7 = Ground(350, 220)
 
         self.obstacles.append(block7)
 
@@ -41,17 +41,22 @@ class Board:
 
         obstacles_copy = copy.deepcopy(self.obstacles)
 
-        self.mario = Mario(self.width / 2, 220, True, obstacles_copy)
+        obstacles_copy2 = copy.deepcopy(self.obstacles)
+        enemy1 = Mushroom(220, 220, True, obstacles_copy2)
+
+        self.enemies = []
+
+        self.enemies.append(enemy1)
+
+        enemies_copy = copy.deepcopy((self.enemies))
+
+        self.mario = Mario(self.width / 2, 220, True, obstacles_copy, enemies_copy)
 
         self.velocity = 0
 
         self.big_x = 255
 
-        enemy1 = Mushroom(220, 220, True, obstacles_copy)
 
-        self.enemies = []
-
-        self.enemies.append(enemy1)
 
 
     def update(self):
@@ -81,6 +86,19 @@ class Board:
 
         for enemy in self.enemies:
             enemy.move(self.progress)
+
+            if abs(enemy.x - (self.mario.x + self.progress)) < 2 and enemy.y - (self.mario.y + self.mario.sprite[4] < 2):
+
+                self.mario.sprite[1] = 0
+                self.mario.sprite[2] = 0
+
+
+                big_x = self.width
+                self.mario.lives -= 1
+                self.mario.x = self.width/2
+                self.mario.y = 220
+
+
 
     def draw(self):
         pyxel.cls(12)
@@ -120,6 +138,6 @@ class Board:
         for enemy in self.enemies:
             if self.big_x >= enemy.sprite[4]:
 
-                pyxel.blt(enemy.sprite[5] - self.progress, enemy.sprite[6], enemy.sprite[0],
+                pyxel.blt(enemy.x - self.progress, enemy.y, enemy.sprite[0],
                           enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
                           enemy.sprite[4])
