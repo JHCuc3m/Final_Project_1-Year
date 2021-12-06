@@ -1,7 +1,7 @@
 from mario import Mario
 import time
 import pyxel
-from enemies import Enemy
+from enemies import Enemy, Mushroom
 from block import Ground
 import copy
 
@@ -26,7 +26,6 @@ class Board:
             self.obstacles.append(block)
             self.obstacles.append(block2)
 
-
         block3 = Ground(10, 180)
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
@@ -40,17 +39,20 @@ class Board:
 
         self.obstacles.append(block5)
 
-        block6 = Ground(300, 220)
+        obstacles_copy = copy.deepcopy(self.obstacles)
 
-        self.obstacles.append(block6)
-
-        hey = copy.deepcopy(self.obstacles)
-
-        self.mario = Mario(self.width / 2, 220, True, hey)
+        self.mario = Mario(self.width / 2, 220, True, obstacles_copy)
 
         self.velocity = 0
 
         self.big_x = 255
+
+        enemy1 = Mushroom(220, 220, True, obstacles_copy)
+
+        self.enemies = []
+
+        self.enemies.append(enemy1)
+
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
@@ -71,10 +73,14 @@ class Board:
 
         if self.mario.jump_force != 10 and self.mario.in_the_ground():
             self.mario.jump_force = 13
+
         for block in self.obstacles:
 
             if self.big_x >= block.sprite[4]:
                 self.progress = self.big_x - self.width
+
+        for enemy in self.enemies:
+            enemy.move(self.progress)
 
     def draw(self):
         pyxel.cls(12)
@@ -99,6 +105,7 @@ class Board:
         pyxel.blt(self.mario.x, self.mario.y, self.mario.sprite[0],
                   self.mario.sprite[1], self.mario.sprite[2], self.mario.sprite[3],
                   self.mario.sprite[4])
+
         for block in self.obstacles:
             if self.big_x >= block.sprite[4]:
                 self.progress = self.big_x - self.width
@@ -107,5 +114,12 @@ class Board:
                           block.sprite[1], block.sprite[2], block.sprite[3],
                           block.sprite[4])
 
+                if block.sprite[5] - self.progress < -16:
+                    del self.obstacles[self.obstacles.index(block)]
 
+        for enemy in self.enemies:
+            if self.big_x >= enemy.sprite[4]:
 
+                pyxel.blt(enemy.sprite[5] - self.progress, enemy.sprite[6], enemy.sprite[0],
+                          enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
+                          enemy.sprite[4])
