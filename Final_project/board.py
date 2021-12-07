@@ -42,22 +42,17 @@ class Board:
         obstacles_copy = copy.deepcopy(self.obstacles)
 
         obstacles_copy2 = copy.deepcopy(self.obstacles)
-        enemy1 = Mushroom(220, 220, True, obstacles_copy2)
+        enemy1 = Mushroom(220, 200, True, obstacles_copy2)
 
         self.enemies = []
 
         self.enemies.append(enemy1)
 
-        enemies_copy = copy.deepcopy((self.enemies))
+        self.mario = Mario(self.width / 2, 220, True, obstacles_copy, self.enemies)
 
-        self.mario = Mario(self.width / 2, 220, True, obstacles_copy, enemies_copy)
-
-        self.velocity = 0
+        self.velocities = [0] * (len(self.enemies) + 1)
 
         self.big_x = 255
-
-
-
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
@@ -74,9 +69,9 @@ class Board:
                 self.mario.move('left', self.width, 1, self.progress)
 
         if pyxel.btn(pyxel.KEY_Z):  # and self.mario.y >= 200:
-            self.mario.jump("up", self.height)
+            self.mario.jump("up")
 
-        if self.mario.jump_force != 10 and self.mario.in_the_ground():
+        if self.mario.jump_force != 13 and (self.mario.in_the_ground() or self.mario.in_the_enemy()):
             self.mario.jump_force = 13
 
         for block in self.obstacles:
@@ -84,46 +79,67 @@ class Board:
             if self.big_x >= block.sprite[4]:
                 self.progress = self.big_x - self.width
 
+        self.enemy_kill_mario()
+
+        # move the map if neccesary
+
+        self.move_map()
+
+    def enemy_kill_mario(self):
         for enemy in self.enemies:
             enemy.move(self.progress)
 
-            if abs(enemy.x - (self.mario.x + self.progress)) < 2 and enemy.y - (self.mario.y + self.mario.sprite[4] < 2):
+            if enemy.alive:
+                if self.mario.in_the_enemy([enemy]):
+                    enemy.alive = False
 
-                self.mario.sprite[1] = 0
-                self.mario.sprite[2] = 0
+            """
+            (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
+                    round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
+                    and 2 > round(self.mario.y) + self.mario.sprite[4] - enemy.y > 0:"""
 
-
-                big_x = self.width
-                self.mario.lives -= 1
-                self.mario.x = self.width/2
-                self.mario.y = 220
-
-
+            if enemy.alive:
+                if (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
+                        round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
+                        and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
+                        and round(self.mario.y) < enemy.y + enemy.sprite[4]:
+                    self.big_x = self.width
+                    self.mario.lives -= 1
+                    self.mario.x = self.width / 2
+                    self.mario.y = 220
 
     def draw(self):
         pyxel.cls(12)
 
         # the gravity, when it is not in the ground, Mario starts falling
 
-        if self.mario.in_the_ground():
-            self.velocity = 0
-        else:
-            self.velocity += 0.2
-
-            self.mario.y += self.velocity
-            time.sleep(0.001)
-
-        # We draw Mario taking the values from the mario object
+        self.gravity_mario()
+        # We draw things taking the values the objects
         # Parameters are x, y, image bank, the starting x and y and the size
 
+        self.print_mario()
+        self.print_obstacles()
+        self.print_enemies_with_gravity()
+
+    def gravity_mario(self):
+        if self.mario.in_the_ground() or self.mario.in_the_enemy():
+            self.velocities[0] = 0
+        else:
+            self.velocities[0] += 0.2
+            self.mario.y += self.velocities[0]
+            time.sleep(0.001)
+
+    def move_map(self):
         if self.mario.x > (self.width / 2):
             self.big_x += (self.mario.x - (self.width / 2))
             self.mario.x = self.width / 2
 
+    def print_mario(self):
         pyxel.blt(self.mario.x, self.mario.y, self.mario.sprite[0],
                   self.mario.sprite[1], self.mario.sprite[2], self.mario.sprite[3],
                   self.mario.sprite[4])
 
+    def print_obstacles(self):
         for block in self.obstacles:
             if self.big_x >= block.sprite[4]:
                 self.progress = self.big_x - self.width
@@ -132,12 +148,27 @@ class Board:
                           block.sprite[1], block.sprite[2], block.sprite[3],
                           block.sprite[4])
 
-                if block.sprite[5] - self.progress < -16:
-                    del self.obstacles[self.obstacles.index(block)]
+    def print_enemies_with_gravity(self):
+        if self.mario.lives == self.enemies[0].mario_previous_lives:
+            for enemy in self.enemies:
 
-        for enemy in self.enemies:
-            if self.big_x >= enemy.sprite[4]:
+                if enemy.in_the_ground():
+                    self.velocities[self.enemies.index(enemy) + 1] = 0
+                else:
+                    self.velocities[self.enemies.index(enemy) + 1] += 0.2
 
-                pyxel.blt(enemy.x - self.progress, enemy.y, enemy.sprite[0],
-                          enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
-                          enemy.sprite[4])
+                    enemy.y += self.velocities[self.enemies.index(enemy) + 1]
+
+                    time.sleep(0.001)
+
+                if self.big_x >= enemy.sprite[4]:
+                    pyxel.blt(enemy.x - self.progress, enemy.y, enemy.sprite[0],
+                              enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
+                              enemy.sprite[4])
+        else:
+            print(self.enemies[0].mario_previous_lives)
+            for enemy in self.enemies:
+                enemy.x = enemy.sprite[5]
+                enemy.y = enemy.sprite[6]
+                enemy.mario_previous_lives = self.mario.lives
+                enemy.dir = enemy.sprite[7]
