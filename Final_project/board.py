@@ -19,7 +19,7 @@ class Board:
         self.obstacles = []
         self.progress = 0.00
 
-        for i in range(0, 1000, 16):
+        for i in range(0, 200, 16):
             block = Ground(i, 236)
             block2 = Ground(i, 252)
 
@@ -88,6 +88,9 @@ class Board:
 
         self.move_map()
 
+        if self.mario.y > 255:
+            self.restart()
+
     def enemy_kill_mario(self):
         for enemy in self.enemies:
             enemy.move(self.progress)
@@ -106,11 +109,15 @@ class Board:
                         round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                         and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
                         and round(self.mario.y) < enemy.y + enemy.sprite[4]:
-                    self.big_x = self.width
-                    self.mario.lives -= 1
-                    self.mario.x = self.width / 2
-                    self.mario.y = 220
+                    self.restart()
 
+    def restart(self):
+        self.big_x = self.width
+        self.mario.lives -= 1
+        self.mario.x = self.width / 2
+        self.mario.y = 210
+        self.mario.obstacles = copy.deepcopy(self.obstacles)
+        self.mario.previous_progress = 0
     def draw(self):
         pyxel.cls(12)
 
