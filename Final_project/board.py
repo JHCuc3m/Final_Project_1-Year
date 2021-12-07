@@ -43,10 +43,13 @@ class Board:
 
         obstacles_copy2 = copy.deepcopy(self.obstacles)
         enemy1 = Mushroom(220, 200, True, obstacles_copy2)
+        enemy2 = Mushroom(100, 100, True, obstacles_copy2)
 
         self.enemies = []
 
         self.enemies.append(enemy1)
+        self.enemies.append(enemy2)
+
 
         self.mario = Mario(self.width / 2, 220, True, obstacles_copy, self.enemies)
 

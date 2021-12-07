@@ -32,7 +32,7 @@ class Mario:
     def in_the_enemy(self, dangerous_enemies = []):
         if dangerous_enemies == []:
             dangerous_enemies = self.enemies
-        for enemy in self.enemies:
+        for enemy in dangerous_enemies:
             if abs(self.y + self.sprite[4] - enemy.y) < 4 \
                     and (round(self.x + self.sprite[3]) > enemy.x - self.previous_progress) \
                     and (round(self.x) < (enemy.x + enemy.sprite[3]) - self.previous_progress):
