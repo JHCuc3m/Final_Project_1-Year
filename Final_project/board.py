@@ -19,7 +19,7 @@ class Board:
         self.obstacles = []
         self.progress = 0.00
 
-        for i in range(0, 200, 16):
+        for i in range(0, 1000, 16):
             block = Ground(i, 236)
             block2 = Ground(i, 252)
 
@@ -49,7 +49,7 @@ class Board:
 
         self.enemies.append(enemy1)
         self.enemies.append(enemy2)
-
+        self.enemies.append(Mushroom(400,220,False, obstacles_copy2))
 
         self.mario = Mario(self.width / 2, 220, True, obstacles_copy, self.enemies)
 
@@ -176,9 +176,9 @@ class Board:
                               enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
                               enemy.sprite[4])
         else:
-            print(self.enemies[0].mario_previous_lives)
             for enemy in self.enemies:
                 enemy.x = enemy.sprite[5]
                 enemy.y = enemy.sprite[6]
                 enemy.mario_previous_lives = self.mario.lives
                 enemy.dir = enemy.sprite[7]
+                enemy.alive = True
