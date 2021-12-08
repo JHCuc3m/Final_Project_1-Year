@@ -1,7 +1,7 @@
 from mario import Mario
 import time
 import pyxel
-from enemies import Enemy, Mushroom
+from enemies import Mushroom, Turtle
 from block import Ground
 import copy
 
@@ -39,6 +39,8 @@ class Board:
 
         self.obstacles.append(block5)
 
+        self.obstacles.append(Ground(500,220))
+
         obstacles_copy = copy.deepcopy(self.obstacles)
 
         obstacles_copy2 = copy.deepcopy(self.obstacles)
@@ -49,7 +51,7 @@ class Board:
 
         self.enemies.append(enemy1)
         self.enemies.append(enemy2)
-        self.enemies.append(Mushroom(400,220,False, obstacles_copy2))
+        self.enemies.append(Turtle(400, 220, False, obstacles_copy2))
 
         self.mario = Mario(self.width / 2, 220, True, obstacles_copy, self.enemies)
 
@@ -98,6 +100,19 @@ class Board:
             if enemy.alive:
                 if self.mario.in_the_enemy([enemy]):
                     enemy.alive = False
+            else:
+                if not self.mario.in_the_enemy([enemy]):
+                    enemy.second_time = True
+                if type(enemy) == Turtle:
+                    enemy.revive()
+                    if self.mario.in_the_enemy([enemy]) and enemy.second_time:
+                        enemy.shot = True
+
+                    if enemy.shot:
+                        enemy.move(self.progress, 5)  # turtle is shot by Mario
+
+
+
 
             """
             (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
@@ -118,6 +133,7 @@ class Board:
         self.mario.y = 210
         self.mario.obstacles = copy.deepcopy(self.obstacles)
         self.mario.previous_progress = 0
+
     def draw(self):
         pyxel.cls(12)
 

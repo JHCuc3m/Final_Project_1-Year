@@ -1,6 +1,7 @@
 import time
 import copy
 
+
 class Enemy:
     def __init__(self, x: int, y: int, dir: bool, obstacles: list):
         """ This method creates the Enemy object
@@ -14,19 +15,17 @@ class Enemy:
         self.dir = dir
         self.mario_previous_lives = 3
 
-        self.sprite = [1, 0, 0, 16, 16, copy.copy(x), copy.copy(y), copy.copy(dir)]  # img bank, x and y of the image bank, width, height, x, y and dir
-
         self.alive = True
 
         self.previous_progress = 0
 
         self.obstacles = obstacles
 
-    def move(self, progress: int):
+    def move(self, progress: int, speed = 0.5):
         """ This is an example of a method that moves the enemy, it receives the
                 direction"""
         # self.sprite[1] = 48
-        if self.alive:
+        if self.alive or speed != 0.5:
             for obstacle in self.obstacles:
                 # obstacle.sprite[5] -= (progress - self.previous_progress)
                 if (abs(round(self.x + self.sprite[3]) - obstacle.sprite[5]) < 1 \
@@ -39,21 +38,42 @@ class Enemy:
                     self.dir = True
 
             if self.dir:
-                self.x += 0.5
+                self.x += speed
             else:
-                self.x -= 0.5
+                self.x -= speed
 
         self.previous_progress = progress
 
     def in_the_ground(self):
         for obstacle in self.obstacles:
             if abs(self.y + self.sprite[4] - obstacle.sprite[6]) < 4 \
-                 and (round(self.x + self.sprite[3]) > obstacle.sprite[5]) \
-                      and (round(self.x) < (obstacle.sprite[5] + obstacle.sprite[3])
-                 ):
+                    and (round(self.x + self.sprite[3]) > obstacle.sprite[5]) \
+                    and (round(self.x) < (obstacle.sprite[5] + obstacle.sprite[3])
+            ):
                 return True
         return False
 
+
 class Mushroom(Enemy):
     def __init__(self, x: int, y: int, dir: bool, obstacles: list):
+        self.sprite = [1, 0, 0, 16, 16, copy.copy(x), copy.copy(y),
+                       copy.copy(dir)]  # img bank, x and y of the image bank, width, height, x, y and dir
         super().__init__(x, y, dir, obstacles)
+
+
+class Turtle(Enemy):
+    def __init__(self, x: int, y: int, dir: bool, obstacles: list):
+        self.sprite = [1, 0, 64, 16, 16, copy.copy(x), copy.copy(y),
+                       copy.copy(dir)]  # img bank, x and y of the image bank, width, height, x, y and dir
+        self.death_time = 0
+        super().__init__(x, y, dir, obstacles)
+        self.shot = False
+        self.second_time = False #Mario second time in the back of the turtle
+
+    def revive(self):
+        if not self.alive:
+            if self.death_time == 0:
+                self.death_time = time.time()
+            elif time.time() - self.death_time > 5:
+                self.alive = True
+                self.death_time = 0
