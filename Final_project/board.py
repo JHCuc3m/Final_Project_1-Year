@@ -109,7 +109,11 @@ class Board:
                         enemy.shot = True
 
                     if enemy.shot:
-                        enemy.move(self.progress, 5)  # turtle is shot by Mario
+                        enemy.move(self.progress, 1)  # turtle is shot by Mario
+                        enemy.move(self.progress, 1)
+                        enemy.move(self.progress, 1)
+                        enemy.move(self.progress, 1)
+                        enemy.move(self.progress, 1)
 
 
 
@@ -119,7 +123,7 @@ class Board:
                     round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                     and 2 > round(self.mario.y) + self.mario.sprite[4] - enemy.y > 0:"""
 
-            if enemy.alive:
+            if enemy.alive or (type(enemy) == Turtle and enemy.shot):
                 if (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
                         round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                         and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
