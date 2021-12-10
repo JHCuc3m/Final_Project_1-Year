@@ -30,13 +30,13 @@ class Board:
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
         block7 = Ground(350, 220)"""
-        block8 = Brick(120, 160)
-        block9 = Question(136, 160)
-        block10 = Brick(152, 160)
-        block11 = Question(168, 160)
-        block12 = Brick(184, 160)
-        block14 = Question(152, 100)
-        block13 = Tunnel(60, 220)
+        block8 = Brick(120, 170)
+        block9 = Question(136, 170)
+        block10 = Brick(152, 170)
+        block11 = Question(168, 170)
+        block12 = Brick(184, 170)
+        block14 = Question(152, 110)
+        block13 = Tunnel(60, 204)
 
 
         """self.obstacles.append(block7)

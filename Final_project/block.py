@@ -31,4 +31,4 @@ class Tunnel:
         @param x the starting x of the tunnel
         @param y the starting y of the tunnel"""
 
-        self.sprite = [2, 32, 24, 16, 16, x, y]  # img bank, x and y of the image bank, width, height, x, y and colkey
+        self.sprite = [2, 32, 24, 24, 32, x, y]  # img bank, x and y of the image bank, width, height, x, y and colkey
