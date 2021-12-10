@@ -1,6 +1,9 @@
 from board import Board
 import pyxel
 
+
+"""
+"""
 board = Board(255, 255)
 
 # The first thing to do is to create the screen, see API for more parameters
