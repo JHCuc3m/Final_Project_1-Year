@@ -2,7 +2,7 @@ from mario import Mario
 import time
 import pyxel
 from enemies import Mushroom, Turtle
-from block import Ground, Brick, Question, Tunnel, BigTunnel, BiggerTunnel
+from block import Ground, Brick, Question, Tunnel
 import copy
 
 
@@ -30,17 +30,14 @@ class Board:
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
         block7 = Ground(350, 220)"""
-        block7 = Question(104, 170)
-        block8 = Brick(152, 170)
-        block9 = Question(168, 170)
-        block10 = Brick(184, 170)
-        block11 = Question(200, 170)
-        block12 = Brick(216, 170)
-        block13 = Tunnel(296, 204)
-        block14 = Question(184, 110)
-        block15 = BigTunnel(424, 196)
-        block16 = BiggerTunnel(552, 188)   #new
-        block17 = BiggerTunnel(648, 188)
+
+        block8 = Brick(120, 160)
+        block9 = Question(136, 160)
+        block10 = Brick(152, 160)
+        block11 = Question(168, 160)
+        block12 = Brick(184, 160)
+        block14 = Question(152, 100)
+        block13 = Tunnel(60, 220)
 
 
         """self.obstacles.append(block7)
@@ -52,7 +49,6 @@ class Board:
         self.obstacles.append(block5)"""
 
         self.obstacles.append(Ground(500,220))
-        self.obstacles.append(block7)
         self.obstacles.append(block8)
         self.obstacles.append(block9)
         self.obstacles.append(block10)
@@ -62,9 +58,6 @@ class Board:
         self.obstacles.append(block12)
         self.obstacles.append(block13)
         self.obstacles.append(block14)
-        self.obstacles.append(block15)
-        self.obstacles.append(block16)
-        self.obstacles.append(block17)
 
 
         obstacles_copy = copy.deepcopy(self.obstacles)
@@ -133,6 +126,7 @@ class Board:
                     enemy.revive()
                     if self.mario.in_the_enemy([enemy]) and enemy.second_time:
                         enemy.shot = True
+
                     if enemy.shot:
                         enemy.move(self.progress, 1)  # turtle is shot by Mario
                         enemy.move(self.progress, 1)
@@ -166,12 +160,22 @@ class Board:
                     round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                     and 2 > round(self.mario.y) + self.mario.sprite[4] - enemy.y > 0:"""
 
-            if enemy.alive or (type(enemy) == Turtle and enemy.shot):
+            if enemy.alive:
                 if (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
                         round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                         and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
                         and round(self.mario.y) < enemy.y + enemy.sprite[4]:
                     self.restart()
+            elif type(enemy) == Turtle and enemy.third_time:
+                if ((round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
+                        round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
+                        and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
+                        and round(self.mario.y) < enemy.y + enemy.sprite[4]) or self.mario.in_the_enemy():
+                    self.restart()
+
+            if  type(enemy) == Turtle and enemy.shot and not self.mario.in_the_enemy():
+                enemy.third_time = True
+
 
     def restart(self):
         self.big_x = self.width
@@ -249,3 +253,7 @@ class Board:
                 enemy.alive = True
                 enemy.sprite[3] = 16 #for now all enemies size are 16 *16, but it depends. If the size were not 16*16, we would have to use parameter to store this info
                 enemy.sprite[4] = 16
+                if type(enemy) == Turtle:
+                    enemy.shot = False
+                    enemy.second_time = False
+                    enemy.third_time = False
