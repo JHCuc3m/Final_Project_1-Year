@@ -5,12 +5,13 @@ from enemies import Mushroom, Turtle
 from block import Ground, Brick, Question, Tunnel
 import copy
 
-"a changea by JhC"
+
 
 class Board:
     """ This class contains all the information needed to represent the
     board"""
 
+    "a new change"
     def __init__(self, w: int, h: int):
         """ The parameters are the width and height of the board"""
         self.width = w
