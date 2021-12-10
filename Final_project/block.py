@@ -1,4 +1,4 @@
-
+my_resource.pyxres
 class Ground:
     def __init__(self, x: int, y: int):
         """ This method creates the Ground object
