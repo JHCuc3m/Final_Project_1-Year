@@ -71,7 +71,7 @@ class Turtle(Enemy):
         self.second_time = False #Mario second time in the back of the turtle
 
     def revive(self):
-        if not self.alive and self.shot == False:
+        if not self.alive:
             if self.death_time == 0:
                 self.death_time = time.time()
             elif time.time() - self.death_time > 5:
