@@ -6,7 +6,7 @@ board = Board(255, 255)
 # The first thing to do is to create the screen, see API for more parameters
 pyxel.init(board.width, board.height, caption="This is super Mario")
 
-# Loading a 16x16 mario at bank 1 in (17,0)zz
+# Loading a 16x16 mario at bank 1 in (17,0)
 pyxel.image(0).load(0, 0, "assets/mario.png")
 
 
