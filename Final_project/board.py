@@ -43,7 +43,7 @@ class Board:
         block13 = Tunnel(296, 204)
         block14 = Question(184, 110)
         block15 = BigTunnel(424, 196)
-        block16 = BiggerTunnel(552, 188)
+        block16 = BiggerTunnel(552, 188)   #new
         block17 = BiggerTunnel(648, 188)
 
 

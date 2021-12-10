@@ -32,7 +32,7 @@ class Tunnel:
         @param y the starting y of the tunnel"""
 
         self.sprite = [2, 32, 24, 24, 32, x, y]  # img bank, x and y of the image bank, width, height, x, y and colkey
-
+ #new
 
 class BigTunnel:
     def __init__(self, x: int, y: int):
