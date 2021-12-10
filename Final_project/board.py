@@ -2,7 +2,7 @@ from mario import Mario
 import time
 import pyxel
 from enemies import Mushroom, Turtle
-from block import Ground
+from block import Ground, Brick, Question, Tunnel
 import copy
 
 
@@ -26,20 +26,38 @@ class Board:
             self.obstacles.append(block)
             self.obstacles.append(block2)
 
-        block3 = Ground(10, 180)
+        """block3 = Ground(10, 180)
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
-        block7 = Ground(350, 220)
+        block7 = Ground(350, 220)"""
+        block8 = Brick(120, 160)
+        block9 = Question(136, 160)
+        block10 = Brick(152, 160)
+        block11 = Question(168, 160)
+        block12 = Brick(184, 160)
+        block14 = Question(152, 100)
+        block13 = Tunnel(60, 220)
 
-        self.obstacles.append(block7)
+
+        """self.obstacles.append(block7)
 
         self.obstacles.append(block3)
 
         self.obstacles.append(block4)
 
-        self.obstacles.append(block5)
+        self.obstacles.append(block5)"""
 
         self.obstacles.append(Ground(500,220))
+        self.obstacles.append(block8)
+        self.obstacles.append(block9)
+        self.obstacles.append(block10)
+        self.obstacles.append(block10)
+        self.obstacles.append(block10)
+        self.obstacles.append(block11)
+        self.obstacles.append(block12)
+        self.obstacles.append(block13)
+        self.obstacles.append(block14)
+
 
         obstacles_copy = copy.deepcopy(self.obstacles)
 

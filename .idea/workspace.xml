@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="15a79734-4026-4497-81aa-40466a3503da" name="Changes" comment="mushroom blue" />
+    <list default="true" id="15a79734-4026-4497-81aa-40466a3503da" name="Changes" comment="mushroom blue">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final_project/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/Final_project/block.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +30,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Final_project" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\aryan\PycharmProjects\Final_Project_1-Year\Final_project" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Final_Project_1-Year" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -74,7 +82,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639130976096</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="mushroom blue">
+      <created>1639131129777</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1639131129777</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
