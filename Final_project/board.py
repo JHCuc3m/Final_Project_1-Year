@@ -7,6 +7,8 @@ import copy
 
 
 
+"a change by Aryan"
+
 class Board:
     """ This class contains all the information needed to represent the
     board"""
