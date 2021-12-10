@@ -126,6 +126,7 @@ class Board:
                     enemy.revive()
                     if self.mario.in_the_enemy([enemy]) and enemy.second_time:
                         enemy.shot = True
+
                     if enemy.shot:
                         enemy.move(self.progress, 1)  # turtle is shot by Mario
                         enemy.move(self.progress, 1)
@@ -159,12 +160,22 @@ class Board:
                     round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                     and 2 > round(self.mario.y) + self.mario.sprite[4] - enemy.y > 0:"""
 
-            if enemy.alive or (type(enemy) == Turtle and enemy.shot):
+            if enemy.alive:
                 if (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
                         round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                         and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
                         and round(self.mario.y) < enemy.y + enemy.sprite[4]:
                     self.restart()
+            elif type(enemy) == Turtle and enemy.third_time:
+                if ((round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
+                        round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
+                        and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
+                        and round(self.mario.y) < enemy.y + enemy.sprite[4]) or self.mario.in_the_enemy():
+                    self.restart()
+
+            if  type(enemy) == Turtle and enemy.shot and not self.mario.in_the_enemy():
+                enemy.third_time = True
+
 
     def restart(self):
         self.big_x = self.width
@@ -242,3 +253,7 @@ class Board:
                 enemy.alive = True
                 enemy.sprite[3] = 16 #for now all enemies size are 16 *16, but it depends. If the size were not 16*16, we would have to use parameter to store this info
                 enemy.sprite[4] = 16
+                if type(enemy) == Turtle:
+                    enemy.shot = False
+                    enemy.second_time = False
+                    enemy.third_time = False

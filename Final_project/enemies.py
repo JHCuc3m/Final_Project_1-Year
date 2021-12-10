@@ -69,6 +69,7 @@ class Turtle(Enemy):
         super().__init__(x, y, dir, obstacles)
         self.shot = False
         self.second_time = False #Mario second time in the back of the turtle
+        self.third_time = False #Mario is killed when touching the tutle being shot
 
     def revive(self):
         if not self.alive:
