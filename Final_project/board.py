@@ -5,6 +5,7 @@ from enemies import Mushroom, Turtle
 from block import Ground, Brick, Question, Tunnel
 import copy
 
+"a changea "
 
 class Board:
     """ This class contains all the information needed to represent the
