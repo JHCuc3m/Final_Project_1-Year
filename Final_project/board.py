@@ -6,10 +6,14 @@ from block import Ground, Brick, Question, Tunnel, BigTunnel, BiggerTunnel
 import copy
 
 
+
+"a change by Aryan"
+
 class Board:
     """ This class contains all the information needed to represent the
     board"""
 
+    "a new change"
     def __init__(self, w: int, h: int):
         """ The parameters are the width and height of the board"""
         self.width = w
@@ -30,11 +34,6 @@ class Board:
         block4 = Ground(40, 140)
         block5 = Ground(80, 100)
         block7 = Ground(350, 220)"""
-
-        """block3 = Ground(10, 180)
-        block4 = Ground(40, 140)
-        block5 = Ground(80, 100)
-        block7 = Ground(350, 220)"""
         block7 = Question(104, 170)
         block8 = Brick(152, 170)
         block9 = Question(168, 170)
@@ -47,6 +46,7 @@ class Board:
         block16 = BiggerTunnel(552, 188)
         block17 = BiggerTunnel(648, 188)
 
+
         """self.obstacles.append(block7)
 
         self.obstacles.append(block3)
@@ -55,7 +55,7 @@ class Board:
 
         self.obstacles.append(block5)"""
 
-        self.obstacles.append(Ground(500, 220))
+        self.obstacles.append(Ground(500,220))
         self.obstacles.append(block7)
         self.obstacles.append(block8)
         self.obstacles.append(block9)
@@ -69,6 +69,7 @@ class Board:
         self.obstacles.append(block15)
         self.obstacles.append(block16)
         self.obstacles.append(block17)
+
 
         obstacles_copy = copy.deepcopy(self.obstacles)
 
@@ -130,9 +131,9 @@ class Board:
                 if self.mario.in_the_enemy([enemy]):
                     enemy.alive = False
             else:
+                if not self.mario.in_the_enemy([enemy]):
+                    enemy.second_time = True
                 if type(enemy) == Turtle:
-                    if not self.mario.in_the_enemy([enemy]):
-                        enemy.second_time = True
                     enemy.revive()
                     if self.mario.in_the_enemy([enemy]) and enemy.second_time:
                         enemy.shot = True
@@ -144,48 +145,20 @@ class Board:
                         enemy.move(self.progress, 1)
                         enemy.move(self.progress, 1)
 
-                    #the turtle kills the mushroom when being shot
-                    for mushroom in self.enemies:
-                        if type(mushroom) == Mushroom:
-                            if (round(enemy.x + enemy.sprite[3]) - mushroom.x) >= 0 and (
-                                    round(enemy.x) - (mushroom.x + mushroom.sprite[3])) <= 0 \
-                                    and round(enemy.y) + enemy.sprite[4] > mushroom.y \
-                                    and round(enemy.y) < mushroom.y + mushroom.sprite[4]:
-                                mushroom.alive = False
-                                #mushroom.sprite[3] = 0
-                                #mushroom.sprite[4] = 0
 
-                    if enemy.alive and enemy.shot: #the turtle disappear after 5 seconds being shot
-                        pass
-                        enemy.sprite[3] = 0
-                        enemy.sprite[4] = 0
 
-                elif type(enemy) == Mushroom: #the mushroom disappear when killed
-                    pass
-                    enemy.sprite[3] = 0
-                    enemy.sprite[4] = 0
 
             """
             (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
                     round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                     and 2 > round(self.mario.y) + self.mario.sprite[4] - enemy.y > 0:"""
 
-            if enemy.alive:
+            if enemy.alive or (type(enemy) == Turtle and enemy.shot):
                 if (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
                         round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
                         and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
                         and round(self.mario.y) < enemy.y + enemy.sprite[4]:
                     self.restart()
-            elif type(enemy) == Turtle and enemy.third_time:
-                if ((round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
-                        round(self.mario.x) - (enemy.x + enemy.sprite[3]) + self.progress) <= 0 \
-                        and round(self.mario.y) + self.mario.sprite[4] > enemy.y \
-                        and round(self.mario.y) < enemy.y + enemy.sprite[4]) or self.mario.in_the_enemy():
-                    self.restart()
-
-            if  type(enemy) == Turtle and enemy.shot and not self.mario.in_the_enemy():
-                enemy.third_time = True
-
 
     def restart(self):
         self.big_x = self.width
@@ -194,7 +167,6 @@ class Board:
         self.mario.y = 210
         self.mario.obstacles = copy.deepcopy(self.obstacles)
         self.mario.previous_progress = 0
-
 
     def draw(self):
         pyxel.cls(12)
@@ -237,7 +209,7 @@ class Board:
                           block.sprite[4])
 
     def print_enemies_with_gravity(self):
-        if len(self.enemies) != 0 and self.mario.lives == self.enemies[0].mario_previous_lives:
+        if self.mario.lives == self.enemies[0].mario_previous_lives:
             for enemy in self.enemies:
 
                 if enemy.in_the_ground():
@@ -253,7 +225,6 @@ class Board:
                     pyxel.blt(enemy.x - self.progress, enemy.y, enemy.sprite[0],
                               enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
                               enemy.sprite[4])
-
         else:
             for enemy in self.enemies:
                 enemy.x = enemy.sprite[5]
@@ -261,9 +232,3 @@ class Board:
                 enemy.mario_previous_lives = self.mario.lives
                 enemy.dir = enemy.sprite[7]
                 enemy.alive = True
-                enemy.sprite[3] = 16 #for now all enemies size are 16 *16, but it depends. If the size were not 16*16, we would have to use parameter to store this info
-                enemy.sprite[4] = 16
-                if type(enemy) == Turtle:
-                    enemy.shot = False
-                    enemy.second_time = False
-                    enemy.third_time = False
