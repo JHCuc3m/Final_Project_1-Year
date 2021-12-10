@@ -44,14 +44,14 @@ class Board:
         obstacles_copy = copy.deepcopy(self.obstacles)
 
         obstacles_copy2 = copy.deepcopy(self.obstacles)
-        enemy1 = Mushroom(220, 200, True, obstacles_copy2)
-        enemy2 = Mushroom(100, 100, True, obstacles_copy2)
+        enemy1 = Mushroom(100, 200, True, obstacles_copy2)
+        enemy2 = Mushroom(80, 100, True, obstacles_copy2)
 
         self.enemies = []
 
         self.enemies.append(enemy1)
         self.enemies.append(enemy2)
-        self.enemies.append(Turtle(400, 220, False, obstacles_copy2))
+        self.enemies.append(Turtle(0, 220, True, obstacles_copy2))
 
         self.mario = Mario(self.width / 2, 220, True, obstacles_copy, self.enemies)
 
@@ -101,13 +101,12 @@ class Board:
                 if self.mario.in_the_enemy([enemy]):
                     enemy.alive = False
             else:
-                if not self.mario.in_the_enemy([enemy]):
-                    enemy.second_time = True
                 if type(enemy) == Turtle:
+                    if not self.mario.in_the_enemy([enemy]):
+                        enemy.second_time = True
                     enemy.revive()
                     if self.mario.in_the_enemy([enemy]) and enemy.second_time:
                         enemy.shot = True
-
                     if enemy.shot:
                         enemy.move(self.progress, 1)  # turtle is shot by Mario
                         enemy.move(self.progress, 1)
@@ -115,8 +114,26 @@ class Board:
                         enemy.move(self.progress, 1)
                         enemy.move(self.progress, 1)
 
+                    #the turtle kills the mushroom when being shot
+                    for mushroom in self.enemies:
+                        if type(mushroom) == Mushroom:
+                            if (round(enemy.x + enemy.sprite[3]) - mushroom.x) >= 0 and (
+                                    round(enemy.x) - (mushroom.x + mushroom.sprite[3])) <= 0 \
+                                    and round(enemy.y) + enemy.sprite[4] > mushroom.y \
+                                    and round(enemy.y) < mushroom.y + mushroom.sprite[4]:
+                                mushroom.alive = False
+                                #mushroom.sprite[3] = 0
+                                #mushroom.sprite[4] = 0
 
+                    if enemy.alive and enemy.shot: #the turtle disappear after 5 seconds being shot
+                        pass
+                        enemy.sprite[3] = 0
+                        enemy.sprite[4] = 0
 
+                elif type(enemy) == Mushroom: #the mushroom disappear when killed
+                    pass
+                    enemy.sprite[3] = 0
+                    enemy.sprite[4] = 0
 
             """
             (round(self.mario.x + self.mario.sprite[3]) - enemy.x + self.progress) >= 0 and (
@@ -137,6 +154,7 @@ class Board:
         self.mario.y = 210
         self.mario.obstacles = copy.deepcopy(self.obstacles)
         self.mario.previous_progress = 0
+
 
     def draw(self):
         pyxel.cls(12)
@@ -179,7 +197,7 @@ class Board:
                           block.sprite[4])
 
     def print_enemies_with_gravity(self):
-        if self.mario.lives == self.enemies[0].mario_previous_lives:
+        if len(self.enemies) != 0 and self.mario.lives == self.enemies[0].mario_previous_lives:
             for enemy in self.enemies:
 
                 if enemy.in_the_ground():
@@ -195,6 +213,7 @@ class Board:
                     pyxel.blt(enemy.x - self.progress, enemy.y, enemy.sprite[0],
                               enemy.sprite[1], enemy.sprite[2], enemy.sprite[3],
                               enemy.sprite[4])
+
         else:
             for enemy in self.enemies:
                 enemy.x = enemy.sprite[5]
@@ -202,3 +221,5 @@ class Board:
                 enemy.mario_previous_lives = self.mario.lives
                 enemy.dir = enemy.sprite[7]
                 enemy.alive = True
+                enemy.sprite[3] = 16 #for now all enemies size are 16 *16, but it depends. If the size were not 16*16, we would have to use parameter to store this info
+                enemy.sprite[4] = 16
